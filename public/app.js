@@ -206,7 +206,7 @@ function loadShelf() {
 // Asks server to build the token handoff URL, then navigates the reader there
 async function openBook(book, lastChapter) {
   const { email, token } = getSession();
-  const btn = document.getElementById('book1-btn');
+  const btn = document.getElementById(book + '-btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Opening…'; }
 
   // Build destination path inside the book
