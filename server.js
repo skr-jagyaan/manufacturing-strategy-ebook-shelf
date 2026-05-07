@@ -18,6 +18,7 @@ const CONFIG = {
   RZP_SECRET:  process.env.RZP_SECRET,
   // Where each book lives — used to build the token handoff URL
   BOOK1_URL:   process.env.BOOK1_URL   || 'https://manufacturing-series-65462349033.asia-south1.run.app',
+  BOOK2_URL:   process.env.BOOK2_URL   || 'https://manufacturing-book2-65462349033.asia-south1.run.app',
 };
 
 // ─── FIREBASE INIT ───────────────────────────────────────────────────────────
