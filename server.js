@@ -201,7 +201,7 @@ app.post('/open-book', async (req, res) => {
     if (new Date(buyer.sessionExpires) < new Date())
       return res.status(401).json({ error: 'Session expired' });
 
-    const bookUrls = { book1: CONFIG.BOOK1_URL };
+    const bookUrls = { book1: CONFIG.BOOK1_URL, book2: CONFIG.BOOK2_URL };
     const baseUrl  = bookUrls[book];
     if (!baseUrl) return res.status(400).json({ error: 'Unknown book' });
 

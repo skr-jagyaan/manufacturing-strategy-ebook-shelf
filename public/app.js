@@ -158,13 +158,13 @@ function loadShelf() {
               </div>
             </div>
 
-            <div class="shelf-card shelf-card--soon">
+            <div class="shelf-card shelf-card--active">
               <div class="shelf-card-num">02</div>
               <div class="shelf-card-tag">Strategy Design</div>
               <div class="shelf-card-title">Stop Planning, Start Winning</div>
               <div class="shelf-card-body">The strategy design framework for manufacturers tired of annual plans that never move the needle.</div>
               <div class="shelf-card-footer">
-                <span class="shelf-card-soon">Coming Soon</span>
+                <button class="btn btn-primary" id="book2-btn" onclick="openBook('book2', 0)">Begin Reading →</button>
               </div>
             </div>
 
