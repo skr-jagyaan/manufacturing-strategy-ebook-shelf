@@ -249,6 +249,21 @@ body { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
   font: 500 0.8125rem/1 'Inter', sans-serif;
   color: var(--ink-3);
 }
+.shelf-card-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--ink);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  font: 500 0.8125rem/1 'Inter', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.shelf-card-btn:hover {
+  opacity: 0.85;
+}
 .shelf-card-opening {
   font: 400 0.8125rem/1 'Inter', sans-serif;
   color: var(--ink-3);
