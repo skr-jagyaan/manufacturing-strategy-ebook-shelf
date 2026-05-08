@@ -174,7 +174,7 @@ function loadShelf() {
               <div class="shelf-card-title">Don't Bet the Business</div>
               <div class="shelf-card-body">How to test your biggest assumptions before committing capital — scale without betting everything.</div>
               <div class="shelf-card-footer">
-                <button class="shelf-card-btn" onclick="openBook('book3')">Begin Reading →</button>
+                <button class="btn btn-primary" onclick="openBook('book3')">Begin Reading →</button>
               </div>
             </div>
 
