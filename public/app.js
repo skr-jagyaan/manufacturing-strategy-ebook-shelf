@@ -168,13 +168,13 @@ function loadShelf() {
               </div>
             </div>
 
-            <div class="shelf-card shelf-card--soon">
+            <div class="shelf-card shelf-card--active">
               <div class="shelf-card-num">03</div>
               <div class="shelf-card-tag">Capital &amp; Risk</div>
               <div class="shelf-card-title">Don't Bet the Business</div>
               <div class="shelf-card-body">How to test your biggest assumptions before committing capital — scale without betting everything.</div>
               <div class="shelf-card-footer">
-                <span class="shelf-card-soon">Coming Soon</span>
+                <button class="shelf-card-btn" onclick="openBook('book3')">Begin Reading →</button>
               </div>
             </div>
 

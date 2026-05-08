@@ -19,6 +19,7 @@ const CONFIG = {
   // Where each book lives — used to build the token handoff URL
   BOOK1_URL:   process.env.BOOK1_URL   || 'https://manufacturing-series-65462349033.asia-south1.run.app',
   BOOK2_URL:   process.env.BOOK2_URL   || 'https://manufacturing-book2-65462349033.asia-south1.run.app',
+  BOOK3_URL:   process.env.BOOK3_URL   || 'https://manufacturing-book3-65462349033.asia-south1.run.app',
 };
 
 // ─── FIREBASE INIT ───────────────────────────────────────────────────────────
@@ -202,7 +203,7 @@ app.post('/open-book', async (req, res) => {
     if (new Date(buyer.sessionExpires) < new Date())
       return res.status(401).json({ error: 'Session expired' });
 
-    const bookUrls = { book1: CONFIG.BOOK1_URL, book2: CONFIG.BOOK2_URL };
+    const bookUrls = { book1: CONFIG.BOOK1_URL, book2: CONFIG.BOOK2_URL, book3: CONFIG.BOOK3_URL };
     const baseUrl  = bookUrls[book];
     if (!baseUrl) return res.status(400).json({ error: 'Unknown book' });
 
