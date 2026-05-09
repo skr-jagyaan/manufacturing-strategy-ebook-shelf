@@ -116,7 +116,7 @@ function loadLogin() {
 
   document.getElementById('logout-btn').style.display = 'none';
   hideLoader();
-  setTimeout(() => document.getElementById('login-email')?.focus(), 100);
+  setTimeout(() => { showLogin(); document.getElementById('login-email')?.focus(); }, 100);
 }
 
 function showLogin() {
