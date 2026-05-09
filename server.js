@@ -40,6 +40,12 @@ async function getBuyerByEmail(email) {
   return snap.exists ? snap.data() : null;
 }
 
+async function getBuyerByPhone(phone) {
+  const snap = await buyers.where('phone', '==', phone).limit(1).get();
+  if (snap.empty) return null;
+  return snap.docs[0].data();
+}
+
 async function createBuyer(email, data) {
   await buyers.doc(email).set({
     ...data,
@@ -146,7 +152,7 @@ app.post('/create-order', async (req, res) => {
 
 // Payment success — called by Razorpay/payment.html after purchase
 app.post('/payment-success', async (req, res) => {
-  const { payment_id, order_id, razorpay_signature, name, email } = req.body;
+  const { payment_id, order_id, razorpay_signature, name, email, phone } = req.body;
   if (!payment_id || !order_id || !razorpay_signature || !name || !email) {
     return res.status(400).json({ error: 'Missing fields' });
   }
@@ -168,7 +174,7 @@ app.post('/payment-success', async (req, res) => {
     }
 
     const password = generatePassword();
-    await createBuyer(email, { name, email, password, paymentId: payment_id });
+    await createBuyer(email, { name, email, password, paymentId: payment_id, phone: phone ? phone.replace(/\D/g, '').replace(/^91/, '') : '' });
     await sendCredentialsEmail(name, email, password);
 
     res.json({ success: true });
@@ -180,6 +186,39 @@ app.post('/payment-success', async (req, res) => {
 });
 
 // Login — validates credentials, issues session token
+// Forgot password — takes email, generates new password, sends email
+app.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Missing email' });
+  try {
+    const buyer = await getBuyerByEmail(email);
+    if (!buyer) return res.status(404).json({ error: 'No account found for this email.' });
+    const newPassword = generatePassword();
+    await updateBuyer(email, { password: newPassword });
+    await sendCredentialsEmail(buyer.name, email, newPassword);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('forgot-password error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Forgot email — takes phone, finds buyer, resends credentials
+app.post('/forgot-email', async (req, res) => {
+  const { phone } = req.body;
+  if (!phone) return res.status(400).json({ error: 'Missing phone' });
+  const normalized = phone.replace(/\D/g, '').replace(/^91/, '');
+  try {
+    const buyer = await getBuyerByPhone(normalized);
+    if (!buyer) return res.status(404).json({ error: 'No account found for this phone number.' });
+    await sendCredentialsEmail(buyer.name, buyer.email, buyer.password);
+    res.json({ success: true, hint: buyer.email.replace(/(.{2})(.*)(@.*)/, '$1***$3') });
+  } catch (err) {
+    console.error('forgot-email error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: 'Missing fields' });
@@ -257,7 +296,7 @@ app.post('/open-book', async (req, res) => {
 
 // ─── SPA CATCH-ALL — must be last ─────────────────────────────────────────────
 app.get('*', (req, res) => {
-  const apiRoutes = ['/api', '/create-order', '/payment-success', '/login', '/verify', '/open-book', '/health'];
+  const apiRoutes = ['/api', '/create-order', '/payment-success', '/forgot-password', '/forgot-email', '/login', '/verify', '/open-book', '/health'];
   if (apiRoutes.some(r => req.path.startsWith(r))) {
     return res.status(404).json({ error: 'Not found.' });
   }

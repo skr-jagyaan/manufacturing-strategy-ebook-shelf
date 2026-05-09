@@ -180,6 +180,38 @@ body { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
 .login-error.show { display: block; }
 .login-btn { width: 100%; justify-content: center; margin-top: 8px; padding: 13px; }
 
+
+.login-forgot-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: center;
+}
+.login-forgot-sep {
+  color: var(--ink-3);
+  font-size: 0.8rem;
+}
+.btn-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--ink-3);
+  font: 400 0.8125rem/1 'Inter', sans-serif;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.btn-link:hover { color: var(--ink); }
+.login-success {
+  font: 400 0.875rem/1.4 'Inter', sans-serif;
+  color: var(--blue);
+  margin-bottom: 12px;
+  display: none;
+}
+.login-success.show { display: block; }
+.login-panel { width: 100%; }
+
 /* ── SHELF SCREEN ── */
 .shelf-wrap {
   max-width: 860px;

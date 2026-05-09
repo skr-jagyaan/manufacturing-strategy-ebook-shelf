@@ -70,6 +70,39 @@ function loadLogin() {
             <input id="login-password" type="password" placeholder="Your password" autocomplete="current-password">
           </div>
           <button class="btn btn-primary login-btn" id="login-submit" onclick="submitLogin()">Sign in →</button>
+          <div class="login-forgot-row">
+            <button class="btn-link" onclick="showForgotPassword()">Forgot password?</button>
+            <span class="login-forgot-sep">·</span>
+            <button class="btn-link" onclick="showForgotEmail()">Forgot email?</button>
+          </div>
+        </div>
+        <div class="login-panel" id="panel-forgot-password" style="display:none;">
+          <div class="login-title" style="font-size:1.25rem;">Reset your password</div>
+          <div class="login-sub">Enter your email — we'll send new credentials instantly.</div>
+          <div class="login-error" id="fp-error"></div>
+          <div class="login-success" id="fp-success"></div>
+          <div class="field">
+            <label>Email</label>
+            <input id="fp-email" type="email" placeholder="your@email.com" autocomplete="email">
+          </div>
+          <button class="btn btn-primary login-btn" onclick="submitForgotPassword()">Send new password →</button>
+          <div class="login-forgot-row" style="margin-top:16px;">
+            <button class="btn-link" onclick="showLogin()">← Back to sign in</button>
+          </div>
+        </div>
+        <div class="login-panel" id="panel-forgot-email" style="display:none;">
+          <div class="login-title" style="font-size:1.25rem;">Find your account</div>
+          <div class="login-sub">Enter the mobile number you used during payment.</div>
+          <div class="login-error" id="fe-error"></div>
+          <div class="login-success" id="fe-success"></div>
+          <div class="field">
+            <label>Mobile number</label>
+            <input id="fe-phone" type="tel" placeholder="e.g. 9876543210">
+          </div>
+          <button class="btn btn-primary login-btn" onclick="submitForgotEmail()">Find my account →</button>
+          <div class="login-forgot-row" style="margin-top:16px;">
+            <button class="btn-link" onclick="showLogin()">← Back to sign in</button>
+          </div>
         </div>
       </div>
       <div class="screen-footer">
@@ -82,6 +115,70 @@ function loadLogin() {
   document.getElementById('logout-btn').style.display = 'none';
   hideLoader();
   setTimeout(() => document.getElementById('login-email')?.focus(), 100);
+}
+
+function showLogin() {
+  document.getElementById('panel-forgot-password').style.display = 'none';
+  document.getElementById('panel-forgot-email').style.display = 'none';
+  document.querySelectorAll('.login-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('sc-login').querySelector('.login-wrap > .field') && null;
+  // Show main login fields
+  const wrap = document.getElementById('sc-login').querySelector('.login-wrap');
+  wrap.querySelectorAll('.field, .login-btn, .login-forgot-row').forEach(el => el.style.display = '');
+  document.getElementById('panel-forgot-password').style.display = 'none';
+  document.getElementById('panel-forgot-email').style.display = 'none';
+}
+function showForgotPassword() {
+  document.getElementById('panel-forgot-password').style.display = 'block';
+  document.getElementById('panel-forgot-email').style.display = 'none';
+  setTimeout(() => document.getElementById('fp-email')?.focus(), 100);
+}
+function showForgotEmail() {
+  document.getElementById('panel-forgot-email').style.display = 'block';
+  document.getElementById('panel-forgot-password').style.display = 'none';
+  setTimeout(() => document.getElementById('fe-phone')?.focus(), 100);
+}
+async function submitForgotPassword() {
+  const email = document.getElementById('fp-email')?.value?.trim();
+  const errEl = document.getElementById('fp-error');
+  const sucEl = document.getElementById('fp-success');
+  errEl.classList.remove('show'); sucEl.classList.remove('show');
+  if (!email || !email.includes('@')) { errEl.textContent = 'Please enter a valid email.'; errEl.classList.add('show'); return; }
+  try {
+    const res = await fetch('/forgot-password', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+    const data = await res.json();
+    if (res.ok) {
+      sucEl.textContent = 'New credentials sent! Check your inbox.';
+      sucEl.classList.add('show');
+    } else {
+      errEl.textContent = data.error || 'Something went wrong.';
+      errEl.classList.add('show');
+    }
+  } catch (e) {
+    errEl.textContent = 'Connection error. Please try again.';
+    errEl.classList.add('show');
+  }
+}
+async function submitForgotEmail() {
+  const phone = document.getElementById('fe-phone')?.value?.trim().replace(/\D/g, '');
+  const errEl = document.getElementById('fe-error');
+  const sucEl = document.getElementById('fe-success');
+  errEl.classList.remove('show'); sucEl.classList.remove('show');
+  if (!phone || phone.length < 10) { errEl.textContent = 'Please enter a valid 10-digit mobile number.'; errEl.classList.add('show'); return; }
+  try {
+    const res = await fetch('/forgot-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone }) });
+    const data = await res.json();
+    if (res.ok) {
+      sucEl.textContent = 'Credentials sent to ' + data.hint + '. Check your inbox.';
+      sucEl.classList.add('show');
+    } else {
+      errEl.textContent = data.error || 'No account found for this number.';
+      errEl.classList.add('show');
+    }
+  } catch (e) {
+    errEl.textContent = 'Connection error. Please try again.';
+    errEl.classList.add('show');
+  }
 }
 
 async function submitLogin() {
@@ -286,7 +383,12 @@ document.addEventListener('keydown', e => {
 });
 
 // ── EXPOSE GLOBALS ──
-window.submitLogin = submitLogin;
+window.submitLogin          = submitLogin;
+window.showForgotPassword   = showForgotPassword;
+window.showForgotEmail      = showForgotEmail;
+window.submitForgotPassword = submitForgotPassword;
+window.submitForgotEmail    = submitForgotEmail;
+window.showLogin            = showLogin;
 window.logout      = logout;
 window.openBook    = openBook;
 
