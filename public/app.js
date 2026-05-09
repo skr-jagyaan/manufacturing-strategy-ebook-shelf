@@ -57,10 +57,10 @@ function loadLogin() {
     <div class="screen active" id="sc-login">
       <div class="screen-body center">
         <div class="login-wrap">
-          <div class="login-series">The Manufacturing Strategy Series</div>
-          <div class="login-title">Sign in to read</div>
-          <div class="login-sub">Use the credentials sent to your email after purchase.</div>
           <div id="login-main">
+            <div class="login-series">The Manufacturing Strategy Series</div>
+            <div class="login-title">Sign in to read</div>
+            <div class="login-sub">Use the credentials sent to your email after purchase.</div>
             <div class="login-error" id="login-error"></div>
             <div class="field">
               <label>Email</label>
