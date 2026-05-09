@@ -128,13 +128,11 @@ function showForgotPassword() {
   document.getElementById('login-main').style.display = 'none';
   document.getElementById('panel-forgot-password').style.display = 'block';
   document.getElementById('panel-forgot-email').style.display = 'none';
-  setTimeout(() => document.getElementById('fp-email')?.focus(), 100);
 }
 function showForgotEmail() {
   document.getElementById('login-main').style.display = 'none';
   document.getElementById('panel-forgot-email').style.display = 'block';
   document.getElementById('panel-forgot-password').style.display = 'none';
-  setTimeout(() => document.getElementById('fe-phone')?.focus(), 100);
 }
 async function submitForgotPassword() {
   const email = document.getElementById('fp-email')?.value?.trim();
