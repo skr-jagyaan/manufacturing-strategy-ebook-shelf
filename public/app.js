@@ -60,20 +60,22 @@ function loadLogin() {
           <div class="login-series">The Manufacturing Strategy Series</div>
           <div class="login-title">Sign in to read</div>
           <div class="login-sub">Use the credentials sent to your email after purchase.</div>
-          <div class="login-error" id="login-error"></div>
-          <div class="field">
-            <label>Email</label>
-            <input id="login-email" type="email" placeholder="your@email.com" autocomplete="email">
-          </div>
-          <div class="field">
-            <label>Password</label>
-            <input id="login-password" type="password" placeholder="Your password" autocomplete="current-password">
-          </div>
-          <button class="btn btn-primary login-btn" id="login-submit" onclick="submitLogin()">Sign in →</button>
-          <div class="login-forgot-row">
-            <button class="btn-link" onclick="showForgotPassword()">Forgot password?</button>
-            <span class="login-forgot-sep">·</span>
-            <button class="btn-link" onclick="showForgotEmail()">Forgot email?</button>
+          <div id="login-main">
+            <div class="login-error" id="login-error"></div>
+            <div class="field">
+              <label>Email</label>
+              <input id="login-email" type="email" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input id="login-password" type="password" placeholder="Your password" autocomplete="current-password">
+            </div>
+            <button class="btn btn-primary login-btn" id="login-submit" onclick="submitLogin()">Sign in →</button>
+            <div class="login-forgot-row">
+              <button class="btn-link" onclick="showForgotPassword()">Forgot password?</button>
+              <span class="login-forgot-sep">·</span>
+              <button class="btn-link" onclick="showForgotEmail()">Forgot email?</button>
+            </div>
           </div>
         </div>
         <div class="login-panel" id="panel-forgot-password" style="display:none;">
@@ -118,21 +120,18 @@ function loadLogin() {
 }
 
 function showLogin() {
+  document.getElementById('login-main').style.display = '';
   document.getElementById('panel-forgot-password').style.display = 'none';
   document.getElementById('panel-forgot-email').style.display = 'none';
-  const wrap = document.getElementById('sc-login').querySelector('.login-wrap');
-  wrap.querySelectorAll('.field, #login-submit, .login-forgot-row:first-of-type').forEach(el => el.style.display = '');
 }
 function showForgotPassword() {
-  const wrap = document.getElementById('sc-login').querySelector('.login-wrap');
-  wrap.querySelectorAll('.field, #login-submit, .login-forgot-row:first-of-type').forEach(el => el.style.display = 'none');
+  document.getElementById('login-main').style.display = 'none';
   document.getElementById('panel-forgot-password').style.display = 'block';
   document.getElementById('panel-forgot-email').style.display = 'none';
   setTimeout(() => document.getElementById('fp-email')?.focus(), 100);
 }
 function showForgotEmail() {
-  const wrap = document.getElementById('sc-login').querySelector('.login-wrap');
-  wrap.querySelectorAll('.field, #login-submit, .login-forgot-row:first-of-type').forEach(el => el.style.display = 'none');
+  document.getElementById('login-main').style.display = 'none';
   document.getElementById('panel-forgot-email').style.display = 'block';
   document.getElementById('panel-forgot-password').style.display = 'none';
   setTimeout(() => document.getElementById('fe-phone')?.focus(), 100);
