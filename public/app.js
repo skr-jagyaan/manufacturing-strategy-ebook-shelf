@@ -184,7 +184,7 @@ function loadShelf() {
               <div class="shelf-card-title">Decoding the Rs. 100 Cr Breakthrough</div>
               <div class="shelf-card-body">Real archetypes of Indian manufacturers who crossed ₹100 Cr — and the exact moves that got them there.</div>
               <div class="shelf-card-footer">
-                <button class="shelf-card-btn" onclick="openBook('book4')">Begin Reading →</button>
+                <button class="btn btn-primary" onclick="openBook('book4')">Begin Reading →</button>
               </div>
             </div>
 
