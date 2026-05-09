@@ -77,34 +77,7 @@ function loadLogin() {
               <button type="button" class="btn-link" onclick="showForgotEmail()">Forgot email?</button>
             </div>
           </div>
-          <div class="login-panel" id="panel-forgot-password" style="display:none;">
-            <div class="login-title" style="font-size:1.25rem;">Reset your password</div>
-            <div class="login-sub">Enter your email — we'll send new credentials instantly.</div>
-            <div class="login-error" id="fp-error"></div>
-            <div class="login-success" id="fp-success"></div>
-            <div class="field">
-              <label>Email</label>
-              <input id="fp-email" type="email" placeholder="your@email.com" autocomplete="email">
-            </div>
-            <button class="btn btn-primary login-btn" onclick="submitForgotPassword()">Send new password →</button>
-            <div class="login-forgot-row" style="margin-top:16px;">
-              <button type="button" class="btn-link" onclick="showLogin()">← Back to sign in</button>
-            </div>
-          </div>
-          <div class="login-panel" id="panel-forgot-email" style="display:none;">
-            <div class="login-title" style="font-size:1.25rem;">Find your account</div>
-            <div class="login-sub">Enter the mobile number you used during payment.</div>
-            <div class="login-error" id="fe-error"></div>
-            <div class="login-success" id="fe-success"></div>
-            <div class="field">
-              <label>Mobile number</label>
-              <input id="fe-phone" type="tel" placeholder="e.g. 9876543210">
-            </div>
-            <button class="btn btn-primary login-btn" onclick="submitForgotEmail()">Find my account →</button>
-            <div class="login-forgot-row" style="margin-top:16px;">
-              <button type="button" class="btn-link" onclick="showLogin()">← Back to sign in</button>
-            </div>
-          </div>
+          <div id="panel-container"></div>
         </div>
       </div>
       <div class="screen-footer">
@@ -116,24 +89,42 @@ function loadLogin() {
 
   document.getElementById('logout-btn').style.display = 'none';
   hideLoader();
-  setTimeout(() => { showLogin(); document.getElementById('login-email')?.focus(); }, 500);
-  setTimeout(() => { const r = document.getElementById('login-forgot-row'); if (r) r.style.visibility = ''; }, 1500);
+  setTimeout(() => { document.getElementById('login-main').style.display = ''; document.getElementById('panel-container').innerHTML = ''; const r = document.getElementById('login-forgot-row'); if(r) r.style.visibility=''; document.getElementById('login-email')?.focus(); }, 500);
 }
 
 function showLogin() {
   document.getElementById('login-main').style.display = '';
-  document.getElementById('panel-forgot-password').style.display = 'none';
-  document.getElementById('panel-forgot-email').style.display = 'none';
+  document.getElementById('panel-container').innerHTML = '';
 }
 function showForgotPassword() {
   document.getElementById('login-main').style.display = 'none';
-  document.getElementById('panel-forgot-password').style.display = 'block';
-  document.getElementById('panel-forgot-email').style.display = 'none';
+  document.getElementById('panel-container').innerHTML = `
+    <div class="login-panel">
+      <div class="login-title" style="font-size:1.25rem;">Reset your password</div>
+      <div class="login-sub">Enter your email — we will send new credentials instantly.</div>
+      <div class="login-error" id="fp-error"></div>
+      <div class="login-success" id="fp-success"></div>
+      <div class="field"><label>Email</label><input id="fp-email" type="email" placeholder="your@email.com"></div>
+      <button type="button" class="btn btn-primary login-btn" onclick="submitForgotPassword()">Send new password →</button>
+      <div class="login-forgot-row" style="margin-top:16px;">
+        <button type="button" class="btn-link" onclick="showLogin()">← Back to sign in</button>
+      </div>
+    </div>`;
 }
 function showForgotEmail() {
   document.getElementById('login-main').style.display = 'none';
-  document.getElementById('panel-forgot-email').style.display = 'block';
-  document.getElementById('panel-forgot-password').style.display = 'none';
+  document.getElementById('panel-container').innerHTML = `
+    <div class="login-panel">
+      <div class="login-title" style="font-size:1.25rem;">Find your account</div>
+      <div class="login-sub">Enter the mobile number you used during payment.</div>
+      <div class="login-error" id="fe-error"></div>
+      <div class="login-success" id="fe-success"></div>
+      <div class="field"><label>Mobile number</label><input id="fe-phone" type="tel" placeholder="e.g. 9876543210"></div>
+      <button type="button" class="btn btn-primary login-btn" onclick="submitForgotEmail()">Find my account →</button>
+      <div class="login-forgot-row" style="margin-top:16px;">
+        <button type="button" class="btn-link" onclick="showLogin()">← Back to sign in</button>
+      </div>
+    </div>`;
 }
 async function submitForgotPassword() {
   const email = document.getElementById('fp-email')?.value?.trim();
