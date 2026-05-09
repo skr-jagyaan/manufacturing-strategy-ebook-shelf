@@ -99,9 +99,23 @@ async function sendCredentialsEmail(name, email, password) {
   await transporter.sendMail({
     from:    `"Sudharsan K R" <${CONFIG.EMAIL_USER}>`,
     to:      email,
+    bcc:     CONFIG.EMAIL_USER,
     subject: 'Your Access — The Manufacturing Strategy Series',
     html
   });
+
+  // ── FIRESTORE EMAIL LOG ──────────────────────────────────────────────────
+  try {
+    await db.collection('email_logs').add({
+      type:      'credentials',
+      to:        email,
+      name:      name,
+      sentAt:    new Date().toISOString(),
+      status:    'sent',
+    });
+  } catch (logErr) {
+    console.error('email_log write failed:', logErr.message);
+  }
 }
 
 function generatePassword() {
