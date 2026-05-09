@@ -1,6 +1,7 @@
 const express    = require('express');
 const cors       = require('cors');
 const crypto     = require('crypto');
+const Razorpay   = require('razorpay');
 const nodemailer = require('nodemailer');
 const path       = require('path');
 const admin      = require('firebase-admin');
@@ -15,6 +16,7 @@ const CONFIG = {
   EMAIL_PORT:  process.env.EMAIL_PORT  || 587,
   EMAIL_USER:  process.env.EMAIL_USER  || 'info@sudharsankr.co.in',
   EMAIL_PASS:  process.env.EMAIL_PASS,
+  RZP_KEY_ID:  process.env.RZP_KEY_ID  || 'rzp_live_Slb6hOcK6ie5f5',
   RZP_SECRET:  process.env.RZP_SECRET,
   // Where each book lives — used to build the token handoff URL
   BOOK1_URL:   process.env.BOOK1_URL   || 'https://manufacturing-series-65462349033.asia-south1.run.app',
@@ -118,10 +120,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Health check
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
+app.post('/create-order', async (req, res) => {
+  try {
+    const order = await rzp.orders.create({ amount: 99900, currency: 'INR', receipt: 'order_' + Date.now() });
+    res.json({ order_id: order.id, key_id: CONFIG.RZP_KEY_ID });
+  } catch (err) {
+    console.error('create-order error:', err);
+    res.status(500).json({ error: 'Could not create order' });
+  }
+});
+
 // Payment success — called by Razorpay/payment.html after purchase
 app.post('/payment-success', async (req, res) => {
-  const { payment_id, name, email } = req.body;
-  if (!payment_id || !name || !email) return res.status(400).json({ error: 'Missing fields' });
+  const { payment_id, order_id, razorpay_signature, name, email } = req.body;
+  if (!payment_id || !order_id || !razorpay_signature || !name || !email) {
+    return res.status(400).json({ error: 'Missing fields' });
+  }
+  const generatedSignature = require('crypto')
+    .createHmac('sha256', CONFIG.RZP_SECRET)
+    .update(order_id + '|' + payment_id)
+    .digest('hex');
+  if (generatedSignature !== razorpay_signature) {
+    console.error('Invalid Razorpay signature:', payment_id);
+    return res.status(400).json({ error: 'Invalid payment signature' });
+  }
 
   try {
     const existing = await getBuyerByEmail(email);
@@ -221,7 +243,7 @@ app.post('/open-book', async (req, res) => {
 
 // ─── SPA CATCH-ALL — must be last ─────────────────────────────────────────────
 app.get('*', (req, res) => {
-  const apiRoutes = ['/api', '/payment-success', '/login', '/verify', '/open-book', '/health'];
+  const apiRoutes = ['/api', '/create-order', '/payment-success', '/login', '/verify', '/open-book', '/health'];
   if (apiRoutes.some(r => req.path.startsWith(r))) {
     return res.status(404).json({ error: 'Not found.' });
   }
