@@ -11,7 +11,7 @@ app.use(express.json());
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 const CONFIG = {
-  EMAIL_HOST:  process.env.EMAIL_HOST  || 'mail.sudharsankr.co.in',
+  EMAIL_HOST:  process.env.EMAIL_HOST  || 'smtpout.secureserver.net',
   EMAIL_PORT:  process.env.EMAIL_PORT  || 587,
   EMAIL_USER:  process.env.EMAIL_USER  || 'info@sudharsankr.co.in',
   EMAIL_PASS:  process.env.EMAIL_PASS,
