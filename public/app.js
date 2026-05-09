@@ -71,7 +71,7 @@ function loadLogin() {
               <input id="login-password" type="password" placeholder="Your password" autocomplete="current-password">
             </div>
             <button class="btn btn-primary login-btn" id="login-submit" onclick="submitLogin()">Sign in →</button>
-            <div class="login-forgot-row">
+            <div class="login-forgot-row" id="login-forgot-row" style="visibility:hidden;">
               <button type="button" class="btn-link" onclick="showForgotPassword()">Forgot password?</button>
               <span class="login-forgot-sep">·</span>
               <button type="button" class="btn-link" onclick="showForgotEmail()">Forgot email?</button>
@@ -116,7 +116,8 @@ function loadLogin() {
 
   document.getElementById('logout-btn').style.display = 'none';
   hideLoader();
-  setTimeout(() => { console.log('loadLogin setTimeout firing'); showLogin(); console.log('showLogin done, login-main display:', document.getElementById('login-main')?.style.display); document.getElementById('login-email')?.focus(); }, 100);
+  setTimeout(() => { showLogin(); document.getElementById('login-email')?.focus(); }, 500);
+  setTimeout(() => { const r = document.getElementById('login-forgot-row'); if (r) r.style.visibility = ''; }, 1500);
 }
 
 function showLogin() {
