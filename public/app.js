@@ -77,33 +77,33 @@ function loadLogin() {
               <button class="btn-link" onclick="showForgotEmail()">Forgot email?</button>
             </div>
           </div>
-        </div>
-        <div class="login-panel" id="panel-forgot-password" style="display:none;">
-          <div class="login-title" style="font-size:1.25rem;">Reset your password</div>
-          <div class="login-sub">Enter your email — we'll send new credentials instantly.</div>
-          <div class="login-error" id="fp-error"></div>
-          <div class="login-success" id="fp-success"></div>
-          <div class="field">
-            <label>Email</label>
-            <input id="fp-email" type="email" placeholder="your@email.com" autocomplete="email">
+          <div class="login-panel" id="panel-forgot-password" style="display:none;">
+            <div class="login-title" style="font-size:1.25rem;">Reset your password</div>
+            <div class="login-sub">Enter your email — we'll send new credentials instantly.</div>
+            <div class="login-error" id="fp-error"></div>
+            <div class="login-success" id="fp-success"></div>
+            <div class="field">
+              <label>Email</label>
+              <input id="fp-email" type="email" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <button class="btn btn-primary login-btn" onclick="submitForgotPassword()">Send new password →</button>
+            <div class="login-forgot-row" style="margin-top:16px;">
+              <button class="btn-link" onclick="showLogin()">← Back to sign in</button>
+            </div>
           </div>
-          <button class="btn btn-primary login-btn" onclick="submitForgotPassword()">Send new password →</button>
-          <div class="login-forgot-row" style="margin-top:16px;">
-            <button class="btn-link" onclick="showLogin()">← Back to sign in</button>
-          </div>
-        </div>
-        <div class="login-panel" id="panel-forgot-email" style="display:none;">
-          <div class="login-title" style="font-size:1.25rem;">Find your account</div>
-          <div class="login-sub">Enter the mobile number you used during payment.</div>
-          <div class="login-error" id="fe-error"></div>
-          <div class="login-success" id="fe-success"></div>
-          <div class="field">
-            <label>Mobile number</label>
-            <input id="fe-phone" type="tel" placeholder="e.g. 9876543210">
-          </div>
-          <button class="btn btn-primary login-btn" onclick="submitForgotEmail()">Find my account →</button>
-          <div class="login-forgot-row" style="margin-top:16px;">
-            <button class="btn-link" onclick="showLogin()">← Back to sign in</button>
+          <div class="login-panel" id="panel-forgot-email" style="display:none;">
+            <div class="login-title" style="font-size:1.25rem;">Find your account</div>
+            <div class="login-sub">Enter the mobile number you used during payment.</div>
+            <div class="login-error" id="fe-error"></div>
+            <div class="login-success" id="fe-success"></div>
+            <div class="field">
+              <label>Mobile number</label>
+              <input id="fe-phone" type="tel" placeholder="e.g. 9876543210">
+            </div>
+            <button class="btn btn-primary login-btn" onclick="submitForgotEmail()">Find my account →</button>
+            <div class="login-forgot-row" style="margin-top:16px;">
+              <button class="btn-link" onclick="showLogin()">← Back to sign in</button>
+            </div>
           </div>
         </div>
       </div>
