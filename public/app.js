@@ -120,20 +120,19 @@ function loadLogin() {
 function showLogin() {
   document.getElementById('panel-forgot-password').style.display = 'none';
   document.getElementById('panel-forgot-email').style.display = 'none';
-  document.querySelectorAll('.login-panel').forEach(p => p.style.display = 'none');
-  document.getElementById('sc-login').querySelector('.login-wrap > .field') && null;
-  // Show main login fields
   const wrap = document.getElementById('sc-login').querySelector('.login-wrap');
-  wrap.querySelectorAll('.field, .login-btn, .login-forgot-row').forEach(el => el.style.display = '');
-  document.getElementById('panel-forgot-password').style.display = 'none';
-  document.getElementById('panel-forgot-email').style.display = 'none';
+  wrap.querySelectorAll('.field, #login-submit, .login-forgot-row:first-of-type').forEach(el => el.style.display = '');
 }
 function showForgotPassword() {
+  const wrap = document.getElementById('sc-login').querySelector('.login-wrap');
+  wrap.querySelectorAll('.field, #login-submit, .login-forgot-row:first-of-type').forEach(el => el.style.display = 'none');
   document.getElementById('panel-forgot-password').style.display = 'block';
   document.getElementById('panel-forgot-email').style.display = 'none';
   setTimeout(() => document.getElementById('fp-email')?.focus(), 100);
 }
 function showForgotEmail() {
+  const wrap = document.getElementById('sc-login').querySelector('.login-wrap');
+  wrap.querySelectorAll('.field, #login-submit, .login-forgot-row:first-of-type').forEach(el => el.style.display = 'none');
   document.getElementById('panel-forgot-email').style.display = 'block';
   document.getElementById('panel-forgot-password').style.display = 'none';
   setTimeout(() => document.getElementById('fe-phone')?.focus(), 100);
