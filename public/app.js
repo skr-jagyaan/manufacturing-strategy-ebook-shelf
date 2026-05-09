@@ -178,13 +178,13 @@ function loadShelf() {
               </div>
             </div>
 
-            <div class="shelf-card shelf-card--soon">
+            <div class="shelf-card shelf-card--active">
               <div class="shelf-card-num">04</div>
               <div class="shelf-card-tag">Scale Archetypes</div>
               <div class="shelf-card-title">Decoding the Rs. 100 Cr Breakthrough</div>
               <div class="shelf-card-body">Real archetypes of Indian manufacturers who crossed ₹100 Cr — and the exact moves that got them there.</div>
               <div class="shelf-card-footer">
-                <span class="shelf-card-soon">Coming Soon</span>
+                <button class="shelf-card-btn" onclick="openBook('book4')">Begin Reading →</button>
               </div>
             </div>
 
