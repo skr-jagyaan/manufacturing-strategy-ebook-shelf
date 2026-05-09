@@ -72,9 +72,9 @@ function loadLogin() {
             </div>
             <button class="btn btn-primary login-btn" id="login-submit" onclick="submitLogin()">Sign in →</button>
             <div class="login-forgot-row">
-              <button class="btn-link" onclick="showForgotPassword()">Forgot password?</button>
+              <button type="button" class="btn-link" onclick="showForgotPassword()">Forgot password?</button>
               <span class="login-forgot-sep">·</span>
-              <button class="btn-link" onclick="showForgotEmail()">Forgot email?</button>
+              <button type="button" class="btn-link" onclick="showForgotEmail()">Forgot email?</button>
             </div>
           </div>
           <div class="login-panel" id="panel-forgot-password" style="display:none;">
@@ -88,7 +88,7 @@ function loadLogin() {
             </div>
             <button class="btn btn-primary login-btn" onclick="submitForgotPassword()">Send new password →</button>
             <div class="login-forgot-row" style="margin-top:16px;">
-              <button class="btn-link" onclick="showLogin()">← Back to sign in</button>
+              <button type="button" class="btn-link" onclick="showLogin()">← Back to sign in</button>
             </div>
           </div>
           <div class="login-panel" id="panel-forgot-email" style="display:none;">
@@ -102,7 +102,7 @@ function loadLogin() {
             </div>
             <button class="btn btn-primary login-btn" onclick="submitForgotEmail()">Find my account →</button>
             <div class="login-forgot-row" style="margin-top:16px;">
-              <button class="btn-link" onclick="showLogin()">← Back to sign in</button>
+              <button type="button" class="btn-link" onclick="showLogin()">← Back to sign in</button>
             </div>
           </div>
         </div>
@@ -116,7 +116,7 @@ function loadLogin() {
 
   document.getElementById('logout-btn').style.display = 'none';
   hideLoader();
-  setTimeout(() => { showLogin(); document.getElementById('login-email')?.focus(); }, 100);
+  setTimeout(() => { console.log('loadLogin setTimeout firing'); showLogin(); console.log('showLogin done, login-main display:', document.getElementById('login-main')?.style.display); document.getElementById('login-email')?.focus(); }, 100);
 }
 
 function showLogin() {
